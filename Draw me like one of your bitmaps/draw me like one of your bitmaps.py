@@ -16,6 +16,7 @@ This script will convert inputs into the Netpbm RGB formats
 # Rect followed by 7 params (R, G, B, X1, Y1, X2, Y2) 
 # Any part of the program not painted can be assumed to be black 
 
+import os.path
 
 # Small class to create an object for the information given about the image 
 class NetpbmImage:
@@ -31,7 +32,15 @@ class NetpbmImage:
 
     def output_data(self):
         # Time to sav to file
-        file = open("image.ppm", "w")
+
+        file_name = 'image.ppm'
+
+        count = 0
+        while os.path.isfile(file_name):
+            count += 1
+            file_name = 'image' + str(count) + 'ppm'
+
+        file = open(file_name, "w")
 
         file.write('P3 \n')
         file.write(str(self.size[0]) + ' ' + str(self.size[1]) + '\n')
